@@ -44,7 +44,6 @@ class Actor(nn.Module):
         x = F.relu(self.bn2(self.fc2(x)))
         return torch.tanh(self.fc3(x))
 
-
 class Critic(nn.Module):
     """
     Neural net for value function (critic)
@@ -55,11 +54,11 @@ class Critic(nn.Module):
                  fcs1_units=400, fc2_units=300):
         """
         # Parameters
-            state_size (int): Dimension of each state
-            action_size (int): Dimension of each action
-            seed (int): Random seed
-            fcs1_units (int): Units in 1st hidden layer
-            fc2_units (int): Units in 2nd hidden layer
+            state_size (int): dimension of each state
+            action_size (int): dimension of each action
+            seed (int): random seed
+            fcs1_units (int): units in 1st hidden layer
+            fc2_units (int): units in 2nd hidden layer
         """
         super(Critic, self).__init__()
         self.seed = torch.manual_seed(seed)
@@ -84,7 +83,6 @@ class Critic(nn.Module):
         x = F.relu(self.fc2(x))
         return self.fc3(x)
     
-    
 class Critic_v2(nn.Module):
     """
     Neural net for value function (critic)
@@ -96,11 +94,11 @@ class Critic_v2(nn.Module):
                  fcs1_units=400, fc2_units=300):
         """
         # Parameters
-            state_size (int): Dimension of each state
-            action_size (int): Dimension of each action
-            seed (int): Random seed
-            fcs1_units (int): Units in 1st hidden layer
-            fc2_units (int): Units in 2nd hidden layer
+            state_size (int): dimension of each state
+            action_size (int): dimension of each action
+            seed (int): random seed
+            fcs1_units (int): units in 1st hidden layer
+            fc2_units (int): units in 2nd hidden layer
         """
         super(Critic_v2, self).__init__()
         self.seed = torch.manual_seed(seed)
@@ -124,61 +122,6 @@ class Critic_v2(nn.Module):
         x = F.relu(self.fc2(x))
         return self.fc3(x)
 
-class TwinCriticsOld(nn.Module):
-    """
-    Neural net for value function (critic) 
-    Twin critics for clipped double Q-learning (TD3)
-    Action inputs introduced into 2nd hidden layer (like DDPG paper, not TD3)
-    """
-
-    def __init__(self, state_size, action_size, seed, fcs1_units=400, fc2_units=300):
-        """Initialize parameters and build model.
-        Params
-        ======
-            state_size (int): Dimension of each state
-            action_size (int): Dimension of each action
-            seed (int): Random seed
-            fcs1_units (int): Number of nodes in the first hidden layer
-            fc2_units (int): Number of nodes in the second hidden layer
-        """
-        super(TwinCriticsOld, self).__init__()
-        self.seed = torch.manual_seed(seed)
-        self.bn0 = nn.BatchNorm1d(state_size)
-        self.fcs1 = nn.Linear(state_size, fcs1_units)
-        self.bn1 = nn.BatchNorm1d(fcs1_units)
-        self.bn12 = nn.BatchNorm1d(fcs1_units)
-        self.fc2 = nn.Linear(fcs1_units+action_size, fc2_units)
-        #self.bn2 = nn.BatchNorm1d(fc2_units)
-        self.fc3 = nn.Linear(fc2_units, 1)
-        self.reset_parameters()
-
-    def reset_parameters(self):
-        """Initialize parameters (based on DDPG paper)"""
-        self.fcs1.weight.data.uniform_(*get_range(self.fcs1))
-        self.fc2.weight.data.uniform_(*get_range(self.fc2))
-        self.fc3.weight.data.uniform_(-3e-3, 3e-3)
-
-    def forward(self, state, action):
-        """Build value network mapping (state, action) -> Q-value"""
-        inputs = self.bn0(state)
-        # Critic 1
-        xs = F.relu(self.bn1(self.fcs1(inputs)))
-        x = torch.cat((xs, action), dim=1)
-        x = F.relu(self.fc2(x))
-        # Critic 2
-        xs2 = F.relu(self.bn12(self.fcs1(inputs)))
-        x2 = torch.cat((xs2, action), dim=1)
-        x2 = F.relu(self.fc2(x2))
-        return self.fc3(x), self.fc3(x2)
-        
-    def single(self, state, action):
-        """Build value network mapping (state, action) -> Q-value"""
-        inputs = self.bn0(state)
-        xs = F.relu(self.bn1(self.fcs1(inputs)))
-        x = torch.cat((xs, action), dim=1)
-        x = F.relu(self.fc2(x))
-        return self.fc3(x)
-
 class TwinCritics(nn.Module):
     """
     Neural net for value function (critic) 
@@ -186,15 +129,15 @@ class TwinCritics(nn.Module):
     Action inputs introduced into 2nd hidden layer (like DDPG paper, not TD3)
     """
 
-    def __init__(self, state_size, action_size, seed, fcs1_units=400, fc2_units=300):
-        """Initialize parameters and build model.
-        Params
-        ======
-            state_size (int): Dimension of each state
-            action_size (int): Dimension of each action
-            seed (int): Random seed
-            fcs1_units (int): Number of nodes in the first hidden layer
-            fc2_units (int): Number of nodes in the second hidden layer
+    def __init__(self, state_size, action_size, seed, 
+                 fcs1_units=400, fc2_units=300):
+        """
+        # Parameters
+            state_size (int): dimension of each state
+            action_size (int): dimension of each action
+            seed (int): random seed
+            fcs1_units (int): units in 1st hidden layer
+            fc2_units (int): units in 2nd hidden layer
         """
         super(TwinCritics, self).__init__()
         self.seed = torch.manual_seed(seed)

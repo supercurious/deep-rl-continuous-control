@@ -168,7 +168,6 @@ class Agent():
         self.t_learn += 1  # increment learning step counter
 
         # UPDATE CRITIC
-
         # Get predicted next-state actions from target net for TD target
         actions_next = self.actor_target(next_states)
         # Add target policy smoothing noise
