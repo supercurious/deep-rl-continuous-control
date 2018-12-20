@@ -1,0 +1,10 @@
+.DS_Store
+.ipynb_checkpoints/
+.vscode
+__pycache__/
+*.py[cod]
+
+Reacher.app
+Reacher20.app
+unity-environment.log
+nohup.out
