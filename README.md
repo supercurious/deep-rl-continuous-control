@@ -8,7 +8,7 @@ Watch a full video of the agent here: [https://youtu.be/JC9iwMmjpzo](https://you
 
 ## The  Environment
 
-The Reacher environment in Unity ML-Agents features a double-jointed rigid body arm for tracking a moving spherical target moving continuously at fast or slow speeds. The agent receives reward points every time step the arm is within the target region. This particular version of the Reacher environment includes 20 robotic arm agents operating at once. Multiple parallel agents can speed up learning. The criteria for solving the task is averaging a score of 30 points across 100 episodes. 
+The Reacher environment in Unity ML-Agents features a double-jointed rigid body arm for tracking a target moving continuously at fast or slow speeds. The agent receives reward points every time step the arm is within the target region. This particular version of the Reacher environment includes 20 robotic arm agents operating at once. Multiple parallel agents can speed up learning. The criteria for solving the task is averaging a score of 30 points across 100 episodes. 
 
 ## Installation
 
