@@ -10,6 +10,8 @@ Watch a full video of the agent here: [https://youtu.be/JC9iwMmjpzo](https://you
 
 The Reacher environment in Unity ML-Agents features a double-jointed rigid body arm for tracking a target moving continuously at fast or slow speeds. The agent receives reward points every time step the arm is within the target region. This particular version of the Reacher environment includes 20 robotic arm agents operating at once. Multiple parallel agents can speed up learning. The criteria for solving the task is averaging a score of 30 points across 100 episodes. 
 
+The agent observes a state space of 33 variables from the environment, including position, rotation, velocity, and angular velocity. The agent has an action space of four dimensions, which are the torques for both joints.
+
 ## Installation
 
 1. Create and activate a  Python 3.6 environment. Choose an environment name in place of `my_env`.
